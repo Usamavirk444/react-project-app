@@ -67,7 +67,7 @@ function Signup() {
         />
         { errors.email && touched.email && <p className="error">{errors.email}</p>}
 
-        <button>Sign Up</button>
+        <button type="submit">Sign Up</button>
       </form>
     </section>
   );

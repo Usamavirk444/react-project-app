@@ -122,7 +122,8 @@ button{
 }
 
 .error{
-    color:red
+    color:red;
+    margin-top:7px
 }
 
 .invalid{
