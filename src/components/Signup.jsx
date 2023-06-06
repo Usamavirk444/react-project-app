@@ -48,9 +48,9 @@ function Signup() {
     
     <section>
       {message && message.message && <Message alert={message} />}
-      <div class="background">
-        <div class="shape"></div>
-        <div class="shape"></div>
+      <div className="background">
+        <div className="shape"></div>
+        <div className="shape"></div>
       </div>
       <form onSubmit={handleSubmit}>
         <h3>SignUp Here</h3>
