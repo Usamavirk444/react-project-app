@@ -2,60 +2,100 @@ import React, { useState } from "react";
 import "./Signup.css";
 import { signUp } from "../schemas/signup";
 import { useFormik } from "formik";
-import Message from "../alerts/message";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Signup() {
   const [message, setMessage] = useState(null);
 
-  const onSubmit = async(e) => {
-    e.preventDefault();
-
+  const submitHandler = async (values) => {
     try {
-      const response = await fetch('your-api-endpoint', {
-        method: 'POST',
+      const response = await fetch("http://localhost:4000/user/register", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(values),
       });
 
       const data = await response.json();
-
-      if (response.ok) {
-        // User registered, OTP sent
-        setMessage({ message: 'OTP has been sent to your email', type: 'success' });
-      } else {
+      if (response.status === 201) {
+        // User registered, Password sent
+        toast.success(data.message, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      } else if (response.status === 302) {
         // User already registered
-        setMessage({ message: data.error, type: 'error' });
+        toast.success(data.message, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      } else if (response.status === 404) {
+        toast.error(data.message, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
       }
+      resetForm();
     } catch (error) {
       // Handle any error during the API call
-      console.error('Error:', error);
-      setMessage({ message: 'An error occurred. Please try again later', type: 'error' });
+      console.error("Error:", error);
+      setMessage({
+        message: "An error occurred. Please try again later",
+        type: "error",
+      });
     }
 
-    console.log("submited!!");
   };
-  const { values, handleChange, handleSubmit, errors, handleBlur, touched } =
-    useFormik({
-      initialValues: {
-        email: "",
-      },
-      validationSchema: signUp,
-      onSubmit,
-    });
+
+  const {
+    values,
+    handleChange,
+    handleSubmit,
+    resetForm,
+    errors,
+    handleBlur,
+    touched,
+  } = useFormik({
+    initialValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+    },
+    validationSchema: signUp,
+    onSubmit: submitHandler,
+  });
+
   return (
-    
     <section>
-      {message && message.message && <Message alert={message} />}
       <div className="background">
         <div className="shape"></div>
         <div className="shape"></div>
       </div>
       <form onSubmit={handleSubmit}>
         <h3>SignUp Here</h3>
-
-        <label htmlFor="username">Email</label>
+        <input
+          type="text"
+          value={values.firstName}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          name="firstName"
+          placeholder="First Name"
+          className={errors.firstName && "invalid"}
+        />
+        {errors.firstName && touched.firstName && (
+          <p className="error">{errors.firstName}</p>
+        )}
+        <input
+          type="text"
+          value={values.lastName}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          name="lastName"
+          placeholder="last Name"
+          className={errors.lastName && "invalid"}
+        />
+        {errors.lastName && touched.lastName && (
+          <p className="error">{errors.lastName}</p>
+        )}
         <input
           type="email"
           value={values.email}
@@ -63,9 +103,11 @@ function Signup() {
           onBlur={handleBlur}
           name="email"
           placeholder="Email or Phone"
-          className={ errors.email && touched.email && "invalid"}
+          className={errors.email && "invalid"}
         />
-        { errors.email && touched.email && <p className="error">{errors.email}</p>}
+        {errors.email && touched.email && (
+          <p className="error">{errors.email}</p>
+        )}
 
         <button type="submit">Sign Up</button>
       </form>
