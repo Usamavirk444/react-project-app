@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Signup.css";
-import { signUp } from "../schemas/signup";
+import { SignIn } from "../schemas/login";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -65,7 +65,7 @@ function Login() {
       lastName: "",
       email: "",
     },
-    validationSchema: signUp,
+    validationSchema: SignIn,
     onSubmit: submitHandler,
   });
 
@@ -78,30 +78,6 @@ function Login() {
       <form onSubmit={handleSubmit}>
         <h3>Login Here</h3>
         <input
-          type="text"
-          value={values.firstName}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          name="firstName"
-          placeholder="First Name"
-          className={errors.firstName && "invalid"}
-        />
-        {errors.firstName && touched.firstName && (
-          <p className="error">{errors.firstName}</p>
-        )}
-        <input
-          type="text"
-          value={values.lastName}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          name="lastName"
-          placeholder="last Name"
-          className={errors.lastName && "invalid"}
-        />
-        {errors.lastName && touched.lastName && (
-          <p className="error">{errors.lastName}</p>
-        )}
-        <input
           type="email"
           value={values.email}
           onChange={handleChange}
@@ -113,8 +89,20 @@ function Login() {
         {errors.email && touched.email && (
           <p className="error">{errors.email}</p>
         )}
+        <input
+          type="password"
+          value={values.password}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          name="password"
+          placeholder="password"
+          className={errors.password && "invalid"}
+        />
+        {errors.password && touched.password && (
+          <p className="error">{errors.password}</p>
+        )}
 
-        <button type="submit">Sign Up</button>
+        <button type="submit">Login</button>
       </form>
     </section>
   );
