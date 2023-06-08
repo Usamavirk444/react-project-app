@@ -61,9 +61,8 @@ function Login() {
     touched,
   } = useFormik({
     initialValues: {
-      firstName: "",
-      lastName: "",
       email: "",
+      password: "",
     },
     validationSchema: SignIn,
     onSubmit: submitHandler,
