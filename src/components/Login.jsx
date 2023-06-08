@@ -82,7 +82,7 @@ function Login() {
           onChange={handleChange}
           onBlur={handleBlur}
           name="email"
-          placeholder="Email or Phone"
+          placeholder="Email"
           className={errors.email && "invalid"}
         />
         {errors.email && touched.email && (

@@ -12,7 +12,6 @@ function Signup() {
 
   const submitHandler = async (values) => {
     try {
-      location('login')
 
       const response = await fetch("http://localhost:4000/user/register", {
         method: "POST",
@@ -29,6 +28,7 @@ function Signup() {
         toast.success(data.message, {
           position: toast.POSITION.TOP_RIGHT,
         });
+        location('login')
       } else if (response.status === 409) {
         // User already registered
         toast.success(data.message, {
@@ -107,7 +107,7 @@ function Signup() {
           onChange={handleChange}
           onBlur={handleBlur}
           name="email"
-          placeholder="Email or Phone"
+          placeholder="Email"
           className={errors.email && "invalid"}
         />
         {errors.email && touched.email && (
