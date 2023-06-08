@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 
-function Signup() {
+function Login() {
   const [message, setMessage] = useState(null);
   const location = useNavigate();
 
@@ -76,7 +76,7 @@ function Signup() {
         <div className="shape"></div>
       </div>
       <form onSubmit={handleSubmit}>
-        <h3>SignUp Here</h3>
+        <h3>Login Here</h3>
         <input
           type="text"
           value={values.firstName}
@@ -120,4 +120,4 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default Login;
