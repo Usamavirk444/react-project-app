@@ -7,14 +7,12 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
-  const [message, setMessage] = useState(null);
   const location = useNavigate();
 
   const submitHandler = async (values) => {
     try {
-      location('login')
 
-      const response = await fetch("http://localhost:4000/user/register", {
+      const response = await fetch("http://localhost:4000/user/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -23,12 +21,14 @@ function Login() {
       });
 
       const data = await response.json();
-      console.log(response);
       if (response.status === 201) {
         // User registered, Password sent
         toast.success(data.message, {
           position: toast.POSITION.TOP_RIGHT,
         });
+        const token = data.data;
+        localStorage.setItem("token", token.token);
+        location('dashboard')
       } else if (response.status === 409) {
         // User already registered
         toast.success(data.message, {
@@ -43,10 +43,6 @@ function Login() {
     } catch (error) {
       // Handle any error during the API call
       console.error("Error:", error);
-      setMessage({
-        message: "An error occurred. Please try again later",
-        type: "error",
-      });
     }
 
   };
